@@ -1,0 +1,2 @@
+﻿50673
+/Users/michaelhaneman/Desktop/Godot/V3.5_MONO/Godot_mono.app/Contents/MacOS/Godot

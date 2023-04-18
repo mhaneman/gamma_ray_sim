@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/experiment.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+
+func _on_start_pressed():
+	var num_of_rays = int($Control/rays/TextEdit.text)
+	$experiment/gamma_ray_emitter.start(num_of_rays)
+
+
+func _on_reset_pressed():
+	$experiment/gamma_ray_emitter.reset()
+
+
+
+func _on_print_pressed():
+	 OS.set_clipboard(str(Data.energy_array))
+
+
+func save_data(filepath):
+	var data = File.new()
+	data.open(filepath, File.WRITE)
+	data.store_line(str(Data.energy_array))
+	data.close()
+	
+"
+
+[node name="main" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="experiment" parent="." instance=ExtResource( 1 )]
+position = Vector2( 222, 302 )
+scale = Vector2( 2.5, 2.5 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 0.5
+margin_left = 382.0
+margin_top = 21.0
+margin_right = 904.0
+margin_bottom = 149.0
+
+[node name="start" type="Button" parent="Control"]
+margin_left = -91.0
+margin_top = 17.0
+margin_right = -50.0
+margin_bottom = 37.0
+text = "Fire!"
+
+[node name="reset" type="Button" parent="Control"]
+margin_left = -38.0
+margin_top = 17.0
+margin_right = 7.0
+margin_bottom = 37.0
+text = "clear"
+
+[node name="print" type="Button" parent="Control"]
+anchor_bottom = 0.156
+margin_left = -347.0
+margin_top = 413.0
+margin_right = -274.0
+margin_bottom = 413.032
+text = "copy data to clipboard"
+
+[node name="rays" type="Label" parent="Control"]
+margin_left = 42.0
+margin_top = 21.0
+margin_right = 194.0
+margin_bottom = 35.0
+text = "Number of Gamma rays"
+
+[node name="TextEdit" type="TextEdit" parent="Control/rays"]
+margin_left = 161.0
+margin_top = -2.0
+margin_right = 235.0
+margin_bottom = 17.0
+text = "1"
+
+[node name="speed" type="Label" parent="Control"]
+margin_left = 42.0
+margin_top = 46.0
+margin_right = 194.0
+margin_bottom = 60.0
+text = "Speed"
+
+[node name="TextEdit" type="TextEdit" parent="Control/speed"]
+margin_left = 161.0
+margin_top = -2.0
+margin_right = 235.0
+margin_bottom = 17.0
+text = "100"
+
+[connection signal="pressed" from="Control/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Control/print" to="." method="_on_print_pressed"]
